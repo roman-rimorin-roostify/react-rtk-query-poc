@@ -2,6 +2,7 @@
   "name": "react-rtk-query-poc",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -16,8 +17,8 @@
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.3.0",
     "@mswjs/data": "^0.10.1",
-    "faker": "^6.6.6",
     "msw": "^0.43.1"
   },
   "eslintConfig": {
@@ -37,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
