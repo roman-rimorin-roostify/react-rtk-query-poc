@@ -18,7 +18,6 @@ export const worker = setupWorker(
   // Retrieve a single user from the database by ID.
   rest.get("/api/users", (req, res, ctx) => {
     const users = db.user;
-    // console.log(users.getAll())
     return res(ctx.json(users.getAll()));
   }),
 
