@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from "react-redux";
 import { store } from "./store";
+// import { usersApi } from './api/usersApi';
 import App from './App';
 
 // Enable API mocking only in development
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
+// store.dispatch(usersApi.endpoints.getUsers.initiate())
 
 const RootComponent = () => 
   <Provider store={store}>

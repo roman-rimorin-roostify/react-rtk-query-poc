@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const emptySplitApi = createApi({
+export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://jsonplaceholder.typicode.com"
+    //reducerPath: 'api', // optional because the default is 'api', you can name it whatever you want
     baseUrl: "/api",
     mode: "cors",
   }),
