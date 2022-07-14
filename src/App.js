@@ -1,11 +1,26 @@
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { selectAllUsers, useAddNewUserMutation, useGetUsersQuery } from "./api/usersSlice";
+import { selectAllUsers, useAddNewUserMutation, useGetUsersQuery, useLazyGetUsersQuery } from "./api/usersSlice";
 
 function App() {
   const { error, isLoading, isSuccess, isError } = useGetUsersQuery();
   const [addNewUser, { isLoading : addUserIsLoading}] = useAddNewUserMutation();
-  const data = useSelector(selectAllUsers)
+  const [trigger, result, lastPromiseInfo] = useLazyGetUsersQuery();
+  const users = useSelector(selectAllUsers)
+  const [data, setData] = useState()
 
+  console.log({result, lastPromiseInfo})
+
+  useEffect(() => {
+    const lazyTrigger = async () => {
+      const lazy = await trigger()
+      setData(lazy.data)
+    }
+    lazyTrigger()
+  }, [trigger, addUserIsLoading])
+
+  console.log("lazyTrigger", data) // to test the lazy trigger
+  
   const handleAddUser = async (e) => {
     e.preventDefault();
     const formEntries = new FormData(e.target).entries();
@@ -27,7 +42,7 @@ function App() {
       {isLoading && "Loading..."}
       {isError && error.message} 
       {isSuccess &&
-        data && (
+        users && (
             <table>
               <thead>
                 <tr>
@@ -39,7 +54,7 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {data.map((user, key) => {
+                {users.map((user, key) => {
                     return (
                       <tr key={key}>
                         <td>{user.id}</td>

@@ -112,7 +112,8 @@ export const {
   useGetUsersByIdQuery,
   useAddNewUserMutation,
   useUpdateUserMutation,
-  useDeleteUserMutation
+  useDeleteUserMutation,
+  useLazyGetUsersQuery
 } = usersApi;
 
 // returns the query result object
