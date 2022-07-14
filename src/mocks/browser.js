@@ -5,11 +5,13 @@ import { db } from "./db";
 export const worker = setupWorker(
   // Mock a user creation operation.
   rest.post("/api/users", (req, res, ctx) => {
-    const { firstName, lastName } = req.body;
+    const { firstName, lastName, jerseyNumber, team } = req.body;
 
     const user = db.user.create({
       firstName,
-      lastName
+      lastName, 
+      jerseyNumber, 
+      team
     });
 
     return res(ctx.json(user));
@@ -36,5 +38,6 @@ export const worker = setupWorker(
     }
 
     return res(ctx.json(user));
-  })
+  }),
+
 );

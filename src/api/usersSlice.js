@@ -28,7 +28,6 @@ export const usersApi = apiSlice.injectEndpoints({
       // we will also refetch our list automatically 
       // because this is invalidated
       providesTags: (result, error, arg) => {
-        console.log(result)
         return [
         // identifying as list as type user.
         // everytime we invalidate this tag we reperform/re-autofetch the user again 
@@ -71,6 +70,7 @@ export const usersApi = apiSlice.injectEndpoints({
           firstName: String(initialUser.firstName),
           lastName: String(initialUser.lastName),
           jerseyNumber: Number(initialUser.jerseyNumber),
+          team: String(initialUser.team),
           isActive: Boolean(initialUser.isActive),
           date: new Date().toISOString()
         }

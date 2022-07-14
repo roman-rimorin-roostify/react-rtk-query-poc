@@ -1,17 +1,77 @@
 import { useSelector } from 'react-redux'
-import { selectAllUsers, useGetUsersQuery } from "./api/usersApi";
+import { selectAllUsers, useAddNewUserMutation, useGetUsersQuery } from "./api/usersSlice";
 
 function App() {
   const { error, isLoading, isSuccess, isError } = useGetUsersQuery();
+  const [addNewUser, { isLoading : addUserIsLoading}] = useAddNewUserMutation();
   const data = useSelector(selectAllUsers)
+
+  const handleAddUser = async (e) => {
+    e.preventDefault();
+    const formEntries = new FormData(e.target).entries();
+    const json = Object.assign(...Array.from(formEntries, ([x,y]) => ({[x]:y})));
+    const {firstName, lastName, jerseyNumber, team} = json
+
+    if([firstName, lastName, jerseyNumber, team].every(Boolean) && !addUserIsLoading) {
+      try{
+        await addNewUser(json).unwrap()
+      }catch(err){
+        console.error('Failed to save the user',)
+      }
+    }
+  }
+
   return (
     <div className="App">
       <h1>POC of React Redux Toolkit {"&"} RTK Query -{">"} CRUD Sample</h1>
       {isLoading && "Loading..."}
       {isError && error.message} 
       {isSuccess &&
-        data &&
-        data.map((user, i) => <h1 key={user.id}>{user.firstName} {user.lastName}</h1>)}
+        data && (
+            <table>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Jersey Number</th>
+                  <th>Team</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((user, key) => {
+                    return (
+                      <tr key={key}>
+                        <td>{user.id}</td>
+                        <td>{user.firstName}</td>
+                        <td>{user.lastName}</td>
+                        <td>{user.jerseyNumber}</td>
+                        <td>{user.team}</td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          )
+        }
+        <br/>
+        <section className="form-section">
+          <h3>Create User</h3>
+          <form onSubmit={handleAddUser}>
+            <label>First name:</label>
+            <input type="text" name="firstName"/>
+            <label>Last name:</label>
+            <input type="text" name="lastName"/>
+            <label>Jersey Number:</label>
+            <input type="text" name="jerseyNumber"/>
+            <label>Team:</label>
+            <input type="text" name="team"/>
+
+            <button type="submit" name="btn-add">Add</button>
+            <button name="btn-clear">Clear</button>
+          </form>
+        </section>
     </div>
   );
 }

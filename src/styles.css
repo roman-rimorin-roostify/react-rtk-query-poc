@@ -1,0 +1,13 @@
+
+.form-section {
+    width: 350px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form > * {
+    margin-bottom: 10px;
+}

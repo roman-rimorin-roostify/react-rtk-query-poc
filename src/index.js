@@ -5,6 +5,8 @@ import { store } from "./store";
 // import { usersApi } from './api/usersApi';
 import App from './App';
 
+import './styles.css';
+
 // Enable API mocking only in development
 if (process.env.NODE_ENV === "development") {
   const { worker } = require("./mocks/browser");
